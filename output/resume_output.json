@@ -1,0 +1,53 @@
+{
+    "full_name": "Ramdular Yadav",
+    "contact_info": {
+        "email": "rammey115@gmail.com",
+        "phone": "+977 9819936338"
+    },
+    "education": [
+        "bachelor\u2019s final year project | fusemachine project",
+        "bachelor\u2019s minor year project",
+        "bachelor of computer engineering",
+        "\u2022 data science course - mastering the fundamentals"
+    ],
+    "technical_skills": [
+        "python",
+        "c++",
+        "sql",
+        "bash",
+        "go",
+        "numpy",
+        "pandas",
+        "scikit-learn",
+        "matplotlib",
+        "seaborn",
+        "tensorflow",
+        "pytorch",
+        "transformers",
+        "spacy",
+        "django",
+        "docker",
+        "kubernetes",
+        "git",
+        "github",
+        "streamlit",
+        "azure"
+    ],
+    "experience": [
+        "\u2013 automated extraction of essential information like names, skills, education, and work experience, helping re-",
+        "work experience / extracurricular",
+        "\u2013 gained hands-on experience through projects involving predictive modeling, web scraping, model deployment,"
+    ],
+    "projects": [
+        "projects",
+        "bachelor\u2019s final year project | fusemachine project",
+        "bachelor\u2019s minor year project",
+        "\u2013 gained hands-on experience through projects involving predictive modeling, web scraping, model deployment,",
+        "\u2013 collaborated on group projects, enhancing teamwork, problem-solving, and communication skills while applying",
+        "\u2013 responsible for creating datasets crucial to the success of the team\u2019s data-driven projects. played a pivotal"
+    ],
+    "certifications": [
+        "azure"
+    ],
+    "summary": ""
+}
