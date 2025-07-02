@@ -1,0 +1,28 @@
+{
+    "job_title": "Unknown",
+    "required_skills": [
+        "python",
+        "go",
+        "scikit-learn",
+        "matplotlib",
+        "tensorflow",
+        "pytorch",
+        "tableau"
+    ],
+    "soft_skills": [
+        "communication",
+        "collaboration"
+    ],
+    "years_of_experience": 0,
+    "degree": "Master",
+    "tools_and_platforms": [
+        "python",
+        "go",
+        "scikit-learn",
+        "matplotlib",
+        "tensorflow",
+        "pytorch",
+        "tableau"
+    ],
+    "certifications": []
+}

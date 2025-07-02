@@ -9,7 +9,7 @@ DEGREES = [
 # Popular certifications for tech roles
 CERTIFICATIONS = [
     "aws", "azure", "google cloud", "gcp", "pmp",
-    "coursera", "udemy", "ibm", "oracle", "ccna", "comptia", "datacamp"
+    "coursera",  "ibm", "oracle",  "datacamp","fusemachine"
 ]
 
 # Common soft skills
