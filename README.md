@@ -23,25 +23,11 @@ This system is ideal for:
 
 ---
 
-##  System Architecture Diagram
+## 🧠 System Architecture Diagram
 
-```mermaid
-graph TD
-    A[ Candidate] --> QA[ Q/A Agent]
-    QA --> LLM[🤖 LLM (Gemini)]
-    LLM --> ResumeTool[ ResumeParserTool]
-    LLM --> JDTool[ JDParserTool]
-    ResumeTool --> QA
-    JDTool --> QA
-    QA --> EV[ Evaluation Agent]
-    QA --> FU[ Follow-Up Agent]
-    QA --> CC[ Chitchat Agent]
-    FU --> A
-    CC --> A
-    EV -->|Scoring| A
-```
+![System Architecture](https://i.postimg.cc/65R0q0nt/Untitled-diagram-Mermaid-Chart-2025-07-02-171151.png)
 
----
+
 
 ##  Key Components
 
@@ -149,5 +135,7 @@ interview-agents/
 
 **Ramdular Yadav**
 AI Fellow @ Fusemachines
+
+
 
 
