@@ -1,63 +1,68 @@
-import sys
-import os
-import json
 import pdfplumber
-from pipeline.job_parser import JobDescriptionParser
-from pipeline.resume_parser import ResumeParser
+import os
+import json # Import json to pretty-print the JSON string
+from pipeline.tools.jd_tool import JDExtractorTool
+from pipeline.tools.resume_tool import ResumeExtractorTool
 
-def read_pdf_text(pdf_path: str) -> str:
+def extract_text_from_pdf(file_path: str) -> str:
     """
-    Reads all text from a PDF file using pdfplumber.
+    Extracts and returns full text from a PDF file using pdfplumber.
     """
-    
     full_text = ""
-
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
-            text = page.extract_text()
-            if text:
-                full_text += text + "\n"
-
+    try:
+        with pdfplumber.open(file_path) as pdf:
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    full_text += page_text + "\n"
+    except Exception as e:
+        print(f"Error extracting text from {file_path}: {e}")
+        return ""
     return full_text
 
-
-def save_to_json(data: dict, filename: str):
-    """
-    Saves a Python dictionary as a JSON file to the output/ directory.
-    """
-    os.makedirs("output", exist_ok=True)
-    output_path = os.path.join("output", filename)
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
-    print(f"\n JSON saved to: {output_path}")
-
-
-def main():
-    print("Choose option:\n1. Parse Job Description\n2. Parse Resume")
-    choice = input("Enter 1 or 2: ")
-
-    pdf_path = input("Enter path to your PDF file (e.g., Dataset/Job_description_DS.pdf): ")
-
-    extracted_text = read_pdf_text(pdf_path)
-    print(extracted_text)
-
-    if choice == "1":
-        parser = JobDescriptionParser(extracted_text)
-        result = parser.parse()
-        print("\n Parsed Job Description:\n")
-        print(result.model_dump_json(indent=4))
-        save_to_json(result.model_dump(), "job_output.json")
-
-    elif choice == "2":
-        parser = ResumeParser(extracted_text)
-        result = parser.parse()
-        print("\n Parsed Resume:\n")
-        print(result.model_dump_json(indent=4))
-        save_to_json(result.model_dump(), "resume_output.json")
-
-    else:
-        print(" Invalid option. Exiting.")
-
-
 if __name__ == "__main__":
-    main()
+    # --- Extract Job Description ---
+    jd_file_path = "Dataset/Job_description_DS.pdf"
+    print(f"Extracting text from: {jd_file_path}")
+    jd_text = extract_text_from_pdf(jd_file_path)
+
+    if jd_text:
+        print("\n--- JD Text Extracted ---")
+        print(jd_text)
+
+        print("\n--- Running JD Extractor Tool ---")
+        jd_tool = JDExtractorTool()
+        try:
+            extracted_jd_info_json = jd_tool._run(jd_text) # This will now be a JSON string
+            print("\n--- Extracted Job Description Information (JSON) ---")
+            print(extracted_jd_info_json) 
+        except Exception as e:
+            print(f"Error running JD Extractor Tool: {e}")
+    else:
+        print(f"Could not extract text from {jd_file_path}. Skipping JD extraction.")
+
+    print("\n" + "="*50 + "\n") # Separator
+
+    # --- Extract Resume ---
+    resume_file_path = "Dataset\Ram_Resume_DS.pdf" # Make sure you have a resume PDF here
+    if not os.path.exists(resume_file_path):
+        print(f"Warning: {resume_file_path} not found. Please place a resume PDF in the Dataset folder to test resume extraction.")
+    else:
+        print(f"Extracting text from: {resume_file_path}")
+        resume_text = extract_text_from_pdf(resume_file_path)
+
+        if resume_text:
+            print("\n--- Resume Text Extracted ---")
+            print(resume_text)
+
+            print("\n--- Running Resume Extractor Tool ---")
+            resume_tool = ResumeExtractorTool()
+            try:
+                extracted_resume_info_json = resume_tool._run(resume_text) # This will now be a JSON string
+                print("\n--- Extracted Resume Information (JSON) ---")
+                print(extracted_resume_info_json) 
+            except Exception as e:
+                print(f"Error running Resume Extractor Tool: {e}")
+        else:
+            print(f"Could not extract text from {resume_file_path}. Skipping Resume extraction.")
+

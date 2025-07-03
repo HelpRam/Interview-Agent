@@ -23,7 +23,7 @@ This system is ideal for:
 
 ---
 
-## 🧠 System Architecture Diagram
+##  System Architecture Diagram
 
 ![System Architecture](https://i.postimg.cc/65R0q0nt/Untitled-diagram-Mermaid-Chart-2025-07-02-171151.png)
 
@@ -68,7 +68,7 @@ This system is ideal for:
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer               | Tools Use                      |
 | ------------------- | ---------------------------------- |
