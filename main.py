@@ -33,7 +33,7 @@ if __name__ == "__main__":
         print("\n--- Running JD Extractor Tool ---")
         jd_tool = JDExtractorTool()
         try:
-            extracted_jd_info_json = jd_tool._run(jd_text) # This will now be a JSON string
+            extracted_jd_info_json = jd_tool._arun(jd_text) # This will now be a JSON string
             print("\n--- Extracted Job Description Information (JSON) ---")
             print(extracted_jd_info_json) 
         except Exception as e:
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     print("\n" + "="*50 + "\n") # Separator
 
     # --- Extract Resume ---
-    resume_file_path = "Dataset\Ram_Resume_DS.pdf" # Make sure you have a resume PDF here
+    resume_file_path = "Dataset\\Shashin_Maharjan[AI_CV].pdf" # Make sure you have a resume PDF here
     if not os.path.exists(resume_file_path):
         print(f"Warning: {resume_file_path} not found. Please place a resume PDF in the Dataset folder to test resume extraction.")
     else:
@@ -58,9 +58,10 @@ if __name__ == "__main__":
             print("\n--- Running Resume Extractor Tool ---")
             resume_tool = ResumeExtractorTool()
             try:
-                extracted_resume_info_json = resume_tool._run(resume_text) # This will now be a JSON string
+                extracted_resume_info_json = resume_tool._arun(resume_text) # This will now be a JSON string
                 print("\n--- Extracted Resume Information (JSON) ---")
                 print(extracted_resume_info_json) 
+                print(type(extracted_resume_info_json))
             except Exception as e:
                 print(f"Error running Resume Extractor Tool: {e}")
         else:
