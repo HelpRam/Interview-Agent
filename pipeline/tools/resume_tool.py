@@ -41,10 +41,12 @@ class ResumeExtractorTool(BaseTool):
         """
         Identifies the document as a Resume and returns the text for further processing.
         """
-        return {"document_type": "resume", "text": text}
+        result = {"document_type": "job_description", "text": text}
+        return json.dumps(result)
 
     async def _arun(self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> dict:
         """
         Asynchronously identifies the document as a Resume and returns the text.
         """
-        return {"document_type": "resume", "text": text}
+        result = {"document_type": "job_description", "text": text}
+        return json.dumps(result)

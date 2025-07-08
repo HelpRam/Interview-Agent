@@ -1,59 +1,82 @@
 import os
 import json
 from dotenv import load_dotenv
-from main import extract_text_from_pdf
+import json
 
+
+# LangChain imports
+from langchain_core.runnables import RunnableLambda
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.runnables import RunnablePassthrough
 
-
-# Import your custom tools 
+# Custom utilities and tools
+from main import extract_text_from_pdf
 from pipeline.tools.jd_tool import JDExtractorTool
 from pipeline.tools.resume_tool import ResumeExtractorTool
 
 
-
-# --- Tool Setup ---
+# --------------------- Environment Setup ---------------------
 load_dotenv()
 os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 
-# Initialize the Gemini LLM
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+# --------------------- LLM Initialization ---------------------
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    temperature=0
+)
 
-# Tool Binding
+# --------------------- Tool Configuration ---------------------
 tools = [JDExtractorTool(), ResumeExtractorTool()]
 
+# --------------------- Prompt Template ---------------------
+prompt = ChatPromptTemplate.from_messages([
+    ("system",
+     "You are an AI assistant that determines whether a given text is a resume or a job description.\n"
+     "You have access to two tools: one for resumes and one for job descriptions.\n"
+     "Once the correct tool is selected, the full text will be passed to it.\n"
+     "Your goal is to extract structured data in JSON format.\n\n"
+     "If it's a **resume**, extract: name, contact info, education, skills, experience, certifications, projects, and summary.\n"
+     "If it's a **job description**, extract: job title, required skills, soft skills, degree, certifications, experience, and tools/platforms.\n\n"
+     "**Important:** Return only the JSON object. Do not include markdown (```json), explanations, or extra text."
+    ),
+    ("user", "{input}"),
+    MessagesPlaceholder(variable_name="agent_scratchpad"),
+])
 
-# create a prompt template for the agent
-prompt  = ChatPromptTemplate.from_messages(
-    [
-        ("system", "You are an AI assistant that specializes in identifying documents types."
-                   "You have access to tools that can identify if a document is a Job Description or a Resume."
-                   "Your goal is to use the correct tool to classify the input text."
-                   "You will return the structured information extracted from the document as a JSON string."),
-    
-            ("user", "{input}"),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-
-    ]
-)
-
-# Create the agent
+# --------------------- Agent Setup ---------------------
 agent = create_tool_calling_agent(
-    llm,
-    tools,
-    prompt
+    llm=llm,
+    tools=tools,
+    prompt=prompt
 )
 
-# Create the agent executor
+# --------------------- Agent Executor ---------------------
 agent_executor = AgentExecutor(
-    agent = agent,
-    tools = tools,
+    agent=agent,
+    tools=tools,
     verbose=True
-
 )
 
-pdf_text = extract_text_from_pdf("Dataset\\Ram_Resume_DS.pdf")  # Make sure to provide the correct path
-result = agent_executor.invoke({"input": pdf_text})
-print(result)
+# --------------------- Output Parser ---------------------
+parser = JsonOutputParser()
+
+# Extract 'output' key before passing to JsonOutputParser
+extract_output = RunnableLambda(lambda x: x["output"])
+
+# --------------------- Combined Chain ---------------------
+chain = agent_executor | extract_output | parser
+
+# --------------------- Run Inference ---------------------
+pdf_text = extract_text_from_pdf("Dataset\\Ram_Resume_DS.pdf")
+
+result = chain.invoke({
+    "input": pdf_text,
+    "agent_scratchpad": [],
+    "chat_history": []
+})
+
+# --------------------- Output ---------------------
+print(json.dumps(result, indent=2))

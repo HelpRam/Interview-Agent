@@ -33,7 +33,7 @@ if __name__ == "__main__":
         print("\n--- Running JD Extractor Tool ---")
         jd_tool = JDExtractorTool()
         try:
-            extracted_jd_info_json = jd_tool._arun(jd_text) # This will now be a JSON string
+            extracted_jd_info_json = jd_tool._run(jd_text) # This will now be a JSON string
             print("\n--- Extracted Job Description Information (JSON) ---")
             print(extracted_jd_info_json) 
         except Exception as e:
@@ -58,7 +58,7 @@ if __name__ == "__main__":
             print("\n--- Running Resume Extractor Tool ---")
             resume_tool = ResumeExtractorTool()
             try:
-                extracted_resume_info_json = resume_tool._arun(resume_text) # This will now be a JSON string
+                extracted_resume_info_json = resume_tool._run(resume_text) # This will now be a JSON string
                 print("\n--- Extracted Resume Information (JSON) ---")
                 print(extracted_resume_info_json) 
                 print(type(extracted_resume_info_json))

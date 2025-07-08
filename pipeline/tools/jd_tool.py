@@ -42,12 +42,14 @@ class JDExtractorTool(BaseTool):
         """
         Identifies the document as a Job Description and returns the text for further processing.
         """
-        return {"document_type": "job_description", "text": text}
+        result = {"document_type": "job_description", "text": text}
+        return json.dumps(result)
 
     # Asynchronous version of the run method
     async def _arun(self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str: # Changed return type to str
         """
         Asynchronously identifies the document as a Job Description and returns the text.
         """
-        return {"document_type": "job_description", "text": text}
+        result = {"document_type": "job_description", "text": text}
+        return json.dumps(result)
 
