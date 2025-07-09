@@ -34,11 +34,11 @@ class ResumeExtractorTool(BaseTool):
         " education, technical skills, experience, projects, certifications, and summary."
     )
 
-    args_schema: Type[BaseModel] = DocumentInput
-    return_direct: bool = True  # The output of this tool is the final answer
+    aa: Type[BaseModel] = DocumentInput
+    return_direct: bool = False  
 
     def _run(self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> dict:
-        """
+        """rgs_schem
         Identifies the document as a Resume and returns the text for further processing.
         """
         result = {"document_type": "job_description", "text": text}

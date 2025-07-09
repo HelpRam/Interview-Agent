@@ -1,8 +1,6 @@
 import os
 import json
 from dotenv import load_dotenv
-import json
-
 
 # LangChain imports
 from langchain_core.runnables import RunnableLambda
@@ -10,13 +8,10 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.runnables import RunnablePassthrough
 
-# Custom utilities and tools
-from main import extract_text_from_pdf
+# Custom tools
 from pipeline.tools.jd_tool import JDExtractorTool
 from pipeline.tools.resume_tool import ResumeExtractorTool
-
 
 # --------------------- Environment Setup ---------------------
 load_dotenv()
@@ -53,30 +48,17 @@ agent = create_tool_calling_agent(
     prompt=prompt
 )
 
-# --------------------- Agent Executor ---------------------
+# --------------------- Agent Executor & Output Parser ---------------------
 agent_executor = AgentExecutor(
     agent=agent,
     tools=tools,
     verbose=True
 )
 
-# --------------------- Output Parser ---------------------
 parser = JsonOutputParser()
-
-# Extract 'output' key before passing to JsonOutputParser
 extract_output = RunnableLambda(lambda x: x["output"])
-
-# --------------------- Combined Chain ---------------------
 chain = agent_executor | extract_output | parser
 
-# --------------------- Run Inference ---------------------
-pdf_text = extract_text_from_pdf("Dataset\\Ram_Resume_DS.pdf")
-
-result = chain.invoke({
-    "input": pdf_text,
-    "agent_scratchpad": [],
-    "chat_history": []
-})
-
-# --------------------- Output ---------------------
-print(json.dumps(result, indent=2))
+# --------------------- Export Chain and Tools ---------------------
+exported_chain = chain
+exported_tools = tools
