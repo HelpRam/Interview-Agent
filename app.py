@@ -98,12 +98,11 @@ def run_tool_and_chain(tool_class, text, label):
 
 # --------------------- MAIN STREAMLIT APP ---------------------
 def main():
-    st.set_page_config(page_title="PDF Extractor & Agent", layout="wide")
+    st.set_page_config(page_title="InterViews Agents - PDF Extractor", layout="wide")
 
-    st.title("📄 PDF Extractor & AI Agent for Resumes/JDs")
+    st.title("🤖 InterView Agents")
     st.markdown("""
-        Upload your Job Description and Resume PDFs to extract structured information
-        and see how the AI agent processes them.
+        Welcome to **InterViews Agents**! Upload your Job Description and Resume. This tool helps streamline the initial stages of candidate evaluation.
     """)
 
     # --- File Uploaders ---

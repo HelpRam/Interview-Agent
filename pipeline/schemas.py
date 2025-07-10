@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional
+from pathlib import Path
+
 
 # ------------------ JOB DESCRIPTION SCHEMA ------------------
 
@@ -39,4 +41,11 @@ class ResumeSchema(BaseModel):
     projects: Optional[List[str]] = Field(default=[], description="List of notable projects from the resume")
     certifications: Optional[List[str]] = Field(default=[], description="List of certifications mentioned in the resume")
     summary: Optional[str] = Field(default=None, description="Candidate's personal summary or objective statement")
+
+# ------------------ PATH SCHEMA ------------------
+
+class FileInput(BaseModel):
+    """
+    schema for file input, typically used for file uploads."""
+    file_path: Path = Field(..., description="The path to the file to be uploaded")
 

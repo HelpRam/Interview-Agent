@@ -2,17 +2,17 @@ import os
 import json # Import the json module
 from typing import Optional, Type
 
-from langchain_core.callbacks import CallbackManagerForToolRun
+from langchain_core.callbacks import CallbackManagerForToolRun, AsyncCallbackManagerForToolRun
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
-from dotenv import load_dotenv
+
 
 # Import your schemas from schemas.py
 from pipeline.schemas import  ResumeSchema, ContactInfo
 
 # Import the LLM and structured output functionality
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel as LangchainBaseModel
+from langchain_core.tools.base import ArgsSchema
 
 
 
@@ -44,7 +44,7 @@ class ResumeExtractorTool(BaseTool):
         result = {"document_type": "job_description", "text": text}
         return json.dumps(result)
 
-    async def _arun(self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> dict:
+    async def _arun(self, text: str, run_manager: Optional[AsyncCallbackManagerForToolRun] = None) -> dict:
         """
         Asynchronously identifies the document as a Resume and returns the text.
         """

@@ -2,16 +2,15 @@ import os
 import json # Import the json module
 from typing import Optional, Type
 
-from langchain_core.callbacks import CallbackManagerForToolRun
+from langchain_core.callbacks import CallbackManagerForToolRun,AsyncCallbackManagerForToolRun
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
-from dotenv import load_dotenv
+from langchain_core.tools.base import ArgsSchema
 
 # Import your schemas from schemas.py
 from pipeline.schemas import JobDescription
 
 # Import the LLM and structured output functionality
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel as LangchainBaseModel
 
 
@@ -35,10 +34,10 @@ class JDExtractorTool(BaseTool):
         " soft skills, year of experience , degree, tools and platforms, certifications."
     )
 
-    args_schema: Type[BaseModel] = DocumentInput
-    return_direct: bool = False  # The output of this tool is the not the final answer
+    args_schema: Optional[ArgsSchema] = DocumentInput
+    return_direct: bool = False  
 
-    def _run(self, text:str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str: # Changed return type to str
+    def _run(self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str:  # Changed return type to str
         """
         Identifies the document as a Job Description and returns the text for further processing.
         """
@@ -46,7 +45,7 @@ class JDExtractorTool(BaseTool):
         return json.dumps(result)
 
     # Asynchronous version of the run method
-    async def _arun(self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str: # Changed return type to str
+    async def _arun(self, text: str, run_manager: Optional[AsyncCallbackManagerForToolRun] = None) -> str: # Changed return type to str
         """
         Asynchronously identifies the document as a Job Description and returns the text.
         """
