@@ -12,7 +12,7 @@ from langchain_core.output_parsers import JsonOutputParser
 # Custom tools
 from pipeline.tools.jd_tool import JDExtractorTool
 from pipeline.tools.resume_tool import ResumeExtractorTool
-from pipeline.tools.parsing_engine import ParsingTool
+# from pipeline.tools.parsing_engine import ParsingTool
 
 # --------------------- Environment Setup ---------------------
 load_dotenv()
@@ -25,7 +25,7 @@ llm = ChatGoogleGenerativeAI(
 )
 
 # --------------------- Tool Binding ---------------------
-tools = [ParsingTool(),JDExtractorTool(), ResumeExtractorTool()]
+tools = [JDExtractorTool(), ResumeExtractorTool()]
 
 # --------------------- Prompt Template ---------------------
 prompt = ChatPromptTemplate.from_messages([
