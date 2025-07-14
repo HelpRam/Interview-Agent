@@ -1,6 +1,7 @@
 from typing import Optional, Type
 from langchain_core.callbacks import CallbackManagerForToolRun, AsyncCallbackManagerForToolRun
 from langchain_core.tools import BaseTool
+from langchain_core.tools.base import ArgsSchema
 from pydantic import BaseModel, Field
 import pdfplumber
 
@@ -35,7 +36,7 @@ class ParsingTool(BaseTool):
     """
     name: str = "File_Upload_Tool"
     description: str = "Use this tool to upload a PDF file. It takes a file path and returns the extracted text."
-    args_schema: Type[BaseModel] = FileInput
+    args_schema: Optional[ArgsSchema]  = FileInput
     return_direct: bool = False
 
     def _run(self, file_path: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str:

@@ -34,7 +34,7 @@ class ResumeExtractorTool(BaseTool):
         " education, technical skills, experience, projects, certifications, and summary."
     )
 
-    aa: Type[BaseModel] = DocumentInput
+    args_schema: Optional[ArgsSchema]  = DocumentInput
     return_direct: bool = False  
 
     def _run(self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> dict:

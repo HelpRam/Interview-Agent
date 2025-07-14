@@ -24,7 +24,7 @@ llm = ChatGoogleGenerativeAI(
     temperature=0
 )
 
-# --------------------- Tool Configuration ---------------------
+# --------------------- Tool Binding ---------------------
 tools = [ParsingTool(),JDExtractorTool(), ResumeExtractorTool()]
 
 # --------------------- Prompt Template ---------------------
@@ -49,15 +49,18 @@ agent = create_tool_calling_agent(
     prompt=prompt
 )
 
-# --------------------- Agent Executor & Output Parser ---------------------
+# --------------------- Agent Executor ---------------------
 agent_executor = AgentExecutor(
     agent=agent,
     tools=tools,
     verbose=True
 )
 
+# Output Parser 
 parser = JsonOutputParser()
 extract_output = RunnableLambda(lambda x: x["output"])
+
+# Chain 
 chain = agent_executor | extract_output | parser
 
 
