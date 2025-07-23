@@ -26,7 +26,7 @@
 
 This image shows the inner workflow of the Q/A Agent, including how parsed data and LLM prompts work together to generate context-aware questions:
 
-![QA Agent Architecture](https://i.postimg.cc/Qx21fv3G/Architecture-QA.png)
+![QA Agent Architecture] (https://i.postimg.cc/Qx21fv3G/Architecture-QA.png)
 
 ---
 
