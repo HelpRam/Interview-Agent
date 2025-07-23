@@ -1,101 +1,112 @@
 
 # Interview Agents – Agentic AI Mock Interview System
 
-**Interview Agents** is a LangChain-based multi-agent system that mimics intelligent, structured interviews. It integrates **large language models**, **resume/job description tools**, and dynamic agents like Q/A, Evaluation, Follow-Up, and Chitchat agents – all orchestrated in a seamless workflow.
-
-This system is ideal for:
-
-* AI-powered **mock interviews**
-* **HR screening bots**
-* Learning or upskilling platforms
-* Agentic AI showcases
+**Interview Agents** is an agentic, multi-agent interview simulation platform built using **LangChain**, **Large Language Models (LLMs - Gemini)**, and structured tools. It orchestrates intelligent interview flows through four core agents: **Question/Answering**, **Evaluation**, **Follow-Up**, and **Chitchat**.
 
 ---
 
-##  Interview Agent Project Flow (Short Summary)
+## Interview Agent Project Workflow
 
-1.  **PDF Extraction**: Resumes and Job Descriptions are passed to tools that extract structured info.
-2.  **Tool Creation**:
+1. **Resume & Job Description Parsing**
+   Uses tools like `ResumeParserTool` and `JDParserTool` to extract structured data from PDFs.
 
-   * `ResumeParserTool` and `JDParserTool` wrap this logic as LangChain Tools.
-3.  **LLM Orchestration**: A Large Language Model (e.g., Gemini or GPT-4) dynamically uses these tools to understand user-job context.
-4.  **Agent Execution**: Q/A Agent asks questions, Follow-Up Agent digs deeper, Evaluation Agent scores answers, and Chitchat Agent keeps it friendly.
+2. **LLM Tool Integration**
+   The LLM dynamically accesses the tools to understand context (skills, experience, job requirements).
+
+3. **Agent Execution Pipeline**
+
+   * **Q/A Agent** initiates interview questions.
+   * **Follow-Up Agent** generates clarification or deeper questions.
+   * **Evaluation Agent** scores user responses.
+   * **Chitchat Agent** keeps the conversation natural and human-like.
 
 ---
 
-##  System Architecture Diagram
+##  Architecture of Question Answering Agent
+
+This image shows the inner workflow of the Q/A Agent, including how parsed data and LLM prompts work together to generate context-aware questions:
+
+![QA Agent Architecture](https://i.postimg.cc/Qx21fv3G/Architecture-QA.png)
+
+---
+
+##  System Architecture (Full Agentic Pipeline)
+
+The high-level system overview showing tool integration, LLM decision logic, and agent orchestration:
 
 ![System Architecture](https://i.postimg.cc/65R0q0nt/Untitled-diagram-Mermaid-Chart-2025-07-02-171151.png)
 
-
+---
 
 ##  Key Components
 
-###  Tools (Used by LLM)
+###  Tools (used by LLM)
 
 * **ResumeParserTool**
 
-  * Extracts name, experience, skills, education, certifications, and projects.
-  * Used to tailor questions to a candidate's profile.
+  * Extracts: name, education, experience, skills, certifications, projects.
+  * Helps personalize interview questions.
 
 * **JDParserTool**
 
-  * Extracts job role, required skills, tools, responsibilities.
-  * Helps align interview flow with job requirements.
+  * Extracts: job role, responsibilities, required skills/tools.
+  * Aligns interview content with job expectations.
 
->  These tools are LangChain-compatible and exposed to the LLM using `tool` decorators or LangChain's Tool abstraction.
+> These are LangChain-compatible tools exposed using decorators or `Tool` abstraction.
 
 ---
 
-###  Agents Overview
+## 🧑‍💼 Agents Overview
 
-####  Q/A Agent
+###  Question Answering (Q/A) Agent
 
-* **Role**: Drives the conversation with job- and resume-aligned questions.
-* **Context**: Uses parsed data via LLM tool calls.
+* **Function**: Generates tailored interview questions.
+* **Input**: Resume, JD data, and conversation history.
+* **LLM**: Constructs prompts based on tool outputs and user responses.
 
-####  Evaluation Agent
+###  Evaluation Agent
 
-* **Role**: Evaluates answer quality using scoring rubrics and semantic similarity.
+* **Function**: Scores user responses using predefined rubrics, keyword match, and semantic similarity.
 
-####  Follow-Up Agent
+###  Follow-Up Agent
 
-* **Role**: Generates clarification or deep-dive questions if the initial answer is vague or shallow.
+* **Function**: Probes for deeper insights or clarifications if answers are vague or short.
 
-####  Chitchat Agent
+###  Chitchat Agent
 
-* **Role**: Humanizes the interaction; detects tone or breaks the ice.
+* **Function**: Adds warmth, breaks the ice, or transitions naturally between questions.
 
 ---
 
 ##  Tech Stack
 
-| Layer               | Tools Use                      |
-| ------------------- | ---------------------------------- |
-| LLM                 | Gemini Pro          |
-| Agent Framework     | LangChain                          |
-| Resume/JD Tools     | `ResumeParserTool`, `JDParserTool` |
-| File Handling       | pdfplumber              |
-| Backend / Interface | Python / Streamlit (optional)      |
+| Layer                   | Tools/Tech Used                |
+| ----------------------- | ------------------------------ |
+| **LLM**                 | Gemini Pro            |
+| **Agent Framework**     | LangChain                      |
+| **Parsing Tools**       | ResumeParserTool, JDParserTool |
+| **PDF Handling**        | pdfplumber                     |
+| **Frontend (optional)** | Streamlit                      |
+| **Backend**             | Python                         |
 
 ---
 
-##  Sample Output
+##  Sample Interaction
 
-```
- JD Skill Match: NLP, LangChain, Docker
- Resume Skill Match: OCR, LLM, API deployment
+```txt
+JD Skill Match: NLP, LangChain, Docker  
+Resume Skill Match: OCR, LLM, API deployment
 
-Q/A Agent: Can you explain how you used OCR in your last project?
-User: I used Tesseract with custom preprocessing for scanned PDFs.
-Evaluation Agent: 9.1/10 – Accurate and well-articulated.
-Follow-Up Agent: What kind of preprocessing techniques did you use?
+Q/A Agent: Can you explain how you used OCR in your last project?  
+User: I used Tesseract with custom preprocessing for scanned PDFs.  
+Evaluation Agent: 9.1/10 – Accurate and well-articulated.  
+Follow-Up Agent: What kind of preprocessing techniques did you use?  
 Chitchat Agent: Sounds like you’ve got solid project experience!
 ```
 
 ---
 
-## Folder Structure
+## 📁 Folder Structure
 
 ```
 interview-agents/
@@ -115,19 +126,19 @@ interview-agents/
 
 ##  Use Cases
 
-* 🔹 Job interview preparation
-* 🔹 Screening assistant for recruiters
-* 🔹 AI companion for career coaching
-* 🔹 Personalized learning assessments
+* 🔹 AI-powered mock interview system
+* 🔹 HR screening and candidate pre-filtering
+* 🔹 AI career mentor/chatbot
+* 🔹 Personalized upskilling platforms
 
 ---
 
-##  Future Plans
+##  Future Enhancements
 
-*  Visual evaluation dashboards
-*  Voice input + speech feedback
-*  Multilingual mode (Nepali, Hindi, English)
-*  Integration with real job boards
+*  Visual dashboards for response evaluation
+*  Voice input & speech feedback support
+*  Multilingual interviews (Nepali, Hindi, English)
+*  Integration with real-time job boards & resume scoring
 
 ---
 
@@ -135,7 +146,6 @@ interview-agents/
 
 **Ramdular Yadav**
 AI Fellow @ Fusemachines
+📧 [077bct066@ioepc.edu.np](mailto:077bct066@ioepc.edu.np) | 📞 9819936338
 
-
-
-
+---
